@@ -1,0 +1,55 @@
+﻿@page "/counter"
+
+<h1>Parser</h1>
+
+
+
+<div class="input-group mb-3">
+    <input type="text"@bind="@CurrentValue" @oninput="@((e) => { CurrentValue=(string)e.Value;})" class="form-control" placeholder="Enter Code" aria-label="Enter Code" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+        <button class="btn btn-primary" type="button"@onclick="Parse">Parse</button>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Text</th>
+            <th>Rule Name</th>
+            <th>Rule</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in list)
+        {
+        <tr>
+            <td>@line.Text</td>
+            <td>@line.Rule</td>
+            <td>@line.Grammer</td>
+        </tr>
+        }
+    </tbody>
+</table>
+    
+
+
+@code {
+    private int currentCount = 0;
+    private string CurrentValue { get; set; }
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    List<DataCLS> list = new List<DataCLS>();
+
+    private void Parse()
+    {
+
+        DataCLS result = new ParserCLS().Parse(CurrentValue);
+        result.Text = CurrentValue;
+        list.Add(result);
+
+
+    }
+}
